@@ -1,0 +1,34 @@
+name: Export Drawio diagrams
+# GeminiをベースにChatGPTと会話しながら修正を入れて作りました。
+# このワークフローが実行されるタイミングを定義
+on:
+  push:
+    paths:
+      - '**/*.drawio' # .drawio拡張子のファイルが変更された場合のみ実行
+
+# 実行されるジョブを定義
+jobs:
+  export-svg:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. リポジトリのソースコードをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Draw.ioファイルをSVGにエクスポート
+      - name: Export Draw.io to SVG
+        uses: rickstaa/drawio-export-action@v2
+        with:
+          # 変換したいDraw.ioファイルへのパス（ワイルドカード使用可）
+          path: '**/*.drawio'
+          # 出力フォーマット
+          format: 'svg'
+          embed-diagram:ture
+
+      # 3. 変更があった場合に自動でコミット
+      - name: Commit exported files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'docs: Auto-generate SVG from Draw.io files'
+          file_pattern: '*.svg'
