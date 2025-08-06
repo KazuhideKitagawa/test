@@ -24,7 +24,7 @@ jobs:
           path: '**/*.drawio'
           # 出力フォーマット
           format: 'svg'
-          embed-diagram:ture
+          embed_diagram:ture
 
       # 3. 変更があった場合に自動でコミット
       - name: Commit exported files
