@@ -18,7 +18,7 @@ jobs:
 
       # 2. Draw.ioファイルをSVGにエクスポート
       - name: Export Draw.io to SVG
-        uses: rickstaa/drawio-export-action@v1.3.0
+        uses: rickstaa/drawio-export-action@v1
         with:
           # 変換したいDraw.ioファイルへのパス（ワイルドカード使用可）
           path: '**/*.drawio'
