@@ -1,34 +1,49 @@
-name: Export Drawio diagrams
-# GeminiをベースにChatGPTと会話しながら修正を入れて作りました。
-# このワークフローが実行されるタイミングを定義
+# ワークフローの名前
+name: '🎨 Draw.io -> SVG 自動変換'
+
+# ワークフローが実行されるトリガーを定義
 on:
   push:
+    # どのブランチでも、.drawioファイルが変更されたら実行
     paths:
-      - '**/*.drawio' # .drawio拡張子のファイルが変更された場合のみ実行
+      - '**.drawio'
 
-# 実行されるジョブを定義
+# 実行する一連のタスク（ジョブ）を定義
 jobs:
-  export-svg:
+  export:
+    # ubuntuの最新版環境で実行
     runs-on: ubuntu-latest
-    
+
+    # 実行するステップを定義
     steps:
-      # 1. リポジトリのソースコードをチェックアウト
-      - name: Checkout repository
+      # --- ステップ1: リポジトリのコードをチェックアウト ---
+      - name: '📂 リポジトリをチェックアウト'
         uses: actions/checkout@v4
 
-      # 2. Draw.ioファイルをSVGにエクスポート
-      - name: Export Draw.io to SVG
-        uses: rickstaa/drawio-export-action@v0.4.0
+      # --- ステップ2: Draw.ioファイルをSVGに変換 ---
+      - name: '🖌️ Draw.ioファイルをSVGにエクスポート'
+        uses: rlespinasse/drawio-export-action@v3
         with:
-          # 変換したいDraw.ioファイルへのパス（ワイルドカード使用可）
+          # リポジトリ内のすべての.drawioファイルを対象にする
           path: '**/*.drawio'
-          # 出力フォーマット
+          
+          # 出力するフォーマット
           format: 'svg'
+          
+          # ★★★ 変更点 ★★★
+          # output オプションを削除しました。
+          # これにより、SVGファイルは元の.drawioファイルと同じ場所に生成されます。
+          
+          # SVGの背景を透過させる場合は true
+          svg-transparent: true
 
-      # 3. 変更があった場合に自動でコミット
-      - name: Commit exported files
+      # --- ステップ3: 生成されたファイルをリポジトリにコミット ---
+      - name: '💾 変更をコミット'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'docs: Auto-generate SVG from Draw.io files'
-          file_pattern: '*.svg'
-      
+          # コミットメッセージ
+          commit_message: 'docs(diagrams): Draw.ioからSVGを自動生成'
+          
+          # ★★★ 変更点 ★★★
+          # コミット対象のファイルパターンをリポジトリ全体の.svgファイルに変更
+          file_pattern: '**/*.svg'
