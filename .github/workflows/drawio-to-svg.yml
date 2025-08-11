@@ -25,7 +25,7 @@ jobs:
       - name: remove old svg for changed .drawio
         run: |
           git fetch origin ${{ github.event.before }}
-        git diff --name-only ${{ github.event.before }} ${{ github.sha } -- '*.drawio' | while read drawio_file; do
+          git diff --name-only ${{ github.event.before }} ${{ github.sha } -- '*.drawio' | while read drawio_file; do
           base_name=$(basename "$drawio_file" .drawio)
           dir_name=$(dirname "$drawio_file")
           rm -f "$dir_name/${base_name}"_*.svg
