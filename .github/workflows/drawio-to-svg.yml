@@ -33,11 +33,6 @@ jobs:
           # 出力するフォーマット
           format: 'svg'
           
-          # output オプションは指定しない（元ファイルと同じ場所に生成）
-          
-          # SVGの背景を透過させる場合は true
-          svg-transparent: true
-
       # --- ステップ3: 生成されたファイルをリポジトリにコミット ---
       - name: '💾 変更をコミット'
         uses: stefanzweifel/git-auto-commit-action@v5
