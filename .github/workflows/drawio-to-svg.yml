@@ -1,49 +1,32 @@
-# ワークフローの名前
-name: '🎨 Draw.io -> SVG 自動変換'
-
-# ワークフローが実行されるトリガーを定義
+name: Export Drawio diagrams
+# GeminiをベースにChatGPTと会話しながら修正を入れて作りました。
+# このワークフローが実行されるタイミングを定義
 on:
   push:
-    # どのブランチでも、.drawioファイルが変更されたら実行
     paths:
-      - '**.drawio'
+      - '**/*.drawio' # .drawio拡張子のファイルが変更された場合のみ実行
 
-# 実行する一連のタスク（ジョブ）を定義
+# 実行されるジョブを定義
 jobs:
-  export:
-    # ubuntuの最新版環境で実行
+  export-svg:
     runs-on: ubuntu-latest
 
-    # 実行するステップを定義
     steps:
-      # --- ステップ1: リポジトリのコードをチェックアウト ---
-      - name: '📂 リポジトリをチェックアウト'
+      - name: Checkout repository
         uses: actions/checkout@v4
+          node-version: '20'
 
-      # --- ステップ2: Draw.ioファイルをSVGに変換 ---
-      - name: '🖌️ Draw.ioファイルをSVGにエクスポート'
-        uses: rlespinasse/drawio-export-action@v3
-        with:
-          # リポジトリ内のすべての.drawioファイルを対象にする
-          path: '**/*.drawio'
-          
-          # 出力するフォーマット
-          format: 'svg'
-          
-          # ★★★ 変更点 ★★★
-          # output オプションを削除しました。
-          # これにより、SVGファイルは元の.drawioファイルと同じ場所に生成されます。
-          
-          # SVGの背景を透過させる場合は true
-          svg-transparent: true
+      - name: drawio-desktop CLI install
+        run: npm install -g drawio-desktop
 
-      # --- ステップ3: 生成されたファイルをリポジトリにコミット ---
-      - name: '💾 変更をコミット'
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          # コミットメッセージ
-          commit_message: 'docs(diagrams): Draw.ioからSVGを自動生成'
-          
-          # ★★★ 変更点 ★★★
-          # コミット対象のファイルパターンをリポジトリ全体の.svgファイルに変更
-          file_pattern: '**/*.svg'
+      - name: .drawio -> svg change
+        run: for file in $(find . -name '*.drawio'); do
+               svg_file="${file%.drawio}.svg"
+               drawio --export --format svg --embed-svg-images -o "$svg_file"
+             done
+      - name: commit & push
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git commit -m "Auto: exported SVG from drawio" || echo "No chages"
+          git push
