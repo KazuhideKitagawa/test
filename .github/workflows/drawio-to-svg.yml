@@ -19,6 +19,8 @@ jobs:
       # --- ステップ1: リポジトリのコードをチェックアウト ---
       - name: '📂 リポジトリをチェックアウト'
         uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
 
       # --- ステップ2: Draw.ioファイルをSVGに変換 ---
       - name: '🖌️ Draw.ioファイルをSVGにエクスポート'
