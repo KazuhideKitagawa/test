@@ -1,5 +1,5 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.6 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36" version="28.0.6" pages="2">
-  <diagram name="ページ1" id="E-epRpiYeXnbHT7oeaSn">
+  <diagram name="page1" id="E-epRpiYeXnbHT7oeaSn">
     <mxGraphModel dx="690" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -22,7 +22,7 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="fGri2HEmjvp0MEn3hc2D" name="ページ2">
+  <diagram id="fGri2HEmjvp0MEn3hc2D" name="page2">
     <mxGraphModel dx="690" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
