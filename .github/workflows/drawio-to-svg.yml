@@ -23,7 +23,7 @@ jobs:
       # --- ステップ2: Draw.ioファイルをSVGに変換 ---
       - name: '🖌️ Draw.ioファイルをSVGにエクスポート'
         # ★★★ ここを v4 に修正しました ★★★
-        uses: rlespinasse/drawio-export-action@v4
+        uses: rlespinasse/drawio-export-action
         with:
           # リポジトリ内のすべての.drawioファイルを対象にする
           path: '**/*.drawio'
